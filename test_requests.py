@@ -1,9 +1,21 @@
+"""
+Клиентский скрипт для тестирования детекции спама через LLM.
+
+Поддерживает два режима работы:
+- fastapi: отправка запросов через FastAPI прокси (порт 8000)
+- ollama: прямая отправка запросов к Ollama (порт 11434)
+
+Результаты сохраняются в Markdown отчёты в папке results/.
+"""
+
 import requests
 import argparse
 
+# Конфигурация эндпоинтов
 API_URL = "http://localhost:8000"
 OLLAMA_DIRECT = "http://localhost:11434/api/generate"
 
+# Список тестовых SMS сообщений
 SMS_LIST = [
     "Вы выиграли миллион рублей! Перейдите по ссылке",
     "Мы идем завтра в кино?",
@@ -21,6 +33,15 @@ SMS_LIST = [
 def ask_llm(prompt, use_fastapi=True):
     """
     Отправляет запрос к LLM и возвращает ответ.
+
+    Args:
+        prompt (str): Текст промпта для отправки модели.
+        use_fastapi (bool, optional): Если True, использует FastAPI прокси.
+                                       Если False, идёт напрямую к Ollama.
+                                       По умолчанию True.
+    
+    Returns:
+        str: Ответ от языковой модели. В случае ошибки возвращает пустую строку.
     """
     if use_fastapi:
         resp = requests.post(f"{API_URL}/generate", json={"prompt": prompt})
@@ -36,6 +57,12 @@ def ask_llm(prompt, use_fastapi=True):
 def save_to_md(results, mode, filename="results/report.md"):
     """
     Сохраняет результаты тестирования в Markdown файл.
+
+    Args:
+        results (list): Список кортежей (сообщение, вердикт) для каждого теста.
+        mode (str): Режим работы ('fastapi' или 'ollama').
+        filename (str, optional): Путь для сохранения файла отчёта.
+                                  По умолчанию "results/report.md".
     """
     with open(filename, "w", encoding="utf-8") as f:
         f.write(f"# Отчет проверки спама\n\n")

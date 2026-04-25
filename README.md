@@ -103,3 +103,5 @@ python evaluate.py --technique cot_few_shot --samples 100
 - Few-shot: [few_shot_report.md](https://github.com/kr1st1na0/NLP_MAI/blob/main/results/few_shot_report.md)
 - CoT + few-shot: [cot_few_shot_report.md](https://github.com/kr1st1na0/NLP_MAI/blob/main/results/cot_few_shot_report.md)
 - Сравнительный анализ техник: [comparison.md](https://github.com/kr1st1na0/NLP_MAI/blob/main/results/comparison.md)
+
+(датасет брала [отсюда](https://archive.ics.uci.edu/dataset/228/sms+spam+collection), тк ссылка на Kaggle почему-то не работала...)

@@ -51,7 +51,22 @@ docker-compose up -d --build
 curl.exe http://localhost:8000/health
 ```
 
-2. Тестирование режимов работы:
+2. Проверка через терминал:
+```
+$ curl -X POST http://localhost:8000/detect_spam -H "Content-Type: application/json" -d '{"text":"Hello, happy to hear from you!"}'
+{"is_spam":false,"confidence":0.85,"reason":"Model identified as not spam","original_text":"Hello, happy to hear from you!"}
+```
+
+```
+PS C:\Users\Admin\MINE\Lab2_NLP> Invoke-RestMethod -Uri "http://localhost:8000/detect_spam" -Method POST -ContentType "application/json" -Body '{"text":"Hi"}'
+
+is_spam   confidence         reason                      original_text
+-------   ----------         ------                      -------------
+  False      0,85     Model identified as not spam           Hi
+
+```
+
+3. Тестирование режимов работы:
 
 - Режим 1: Через FastAPI
 ```
@@ -63,7 +78,7 @@ python test_requests.py --mode fastapi
 python test_requests.py --mode ollama
 ```
 
-3. Оценка техник промптинга
+4. Оценка техник промптинга
 - Запуск всех техник на 100 сообщениях:
 
 ```
